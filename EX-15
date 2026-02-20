@@ -1,0 +1,30 @@
+class Solution:
+    def getMinDiff(self, arr, k):
+        n = len(arr)
+        arr.sort()
+
+        # initial difference without changes
+        ans = arr[-1] - arr[0]
+
+        # smallest and largest after first modification
+        small = arr[0] + k
+        big = arr[-1] - k
+
+        if small > big:
+            small, big = big, small
+
+        # try all partitions
+        for i in range(n - 1):
+            subtract = arr[i+1] - k
+            add = arr[i] + k
+
+            # heights cannot be negative
+            if subtract < 0:
+                continue
+
+            new_min = min(small, subtract)
+            new_max = max(big, add)
+
+            ans = min(ans, new_max - new_min)
+
+        return ans
