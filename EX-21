@@ -1,0 +1,21 @@
+class Solution:
+    def factorial(self, n):
+        res = [1]   # stores digits of factorial
+
+        # multiply numbers from 2 to n
+        for x in range(2, n + 1):
+            carry = 0
+
+            # multiply current number with existing digits
+            for i in range(len(res)):
+                val = res[i] * x + carry
+                res[i] = val % 10
+                carry = val // 10
+
+            # add remaining carry digits
+            while carry:
+                res.append(carry % 10)
+                carry //= 10
+
+        # digits are stored in reverse
+        return res[::-1]
