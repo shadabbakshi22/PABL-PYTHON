@@ -1,0 +1,29 @@
+class Solution:
+    def maxPeople(self, arr):
+        n = len(arr)
+
+        # previous greater or equal index
+        leftGE = [-1] * n
+        stack = []
+        for i in range(n):
+            while stack and arr[stack[-1]] < arr[i]:
+                stack.pop()
+            leftGE[i] = stack[-1] if stack else -1
+            stack.append(i)
+
+        # next greater or equal index
+        rightGE = [n] * n
+        stack = []
+        for i in range(n - 1, -1, -1):
+            while stack and arr[stack[-1]] < arr[i]:
+                stack.pop()
+            rightGE[i] = stack[-1] if stack else n
+            stack.append(i)
+
+        # compute maximum visible people
+        ans = 0
+        for i in range(n):
+            visible = (i - leftGE[i] - 1) + (rightGE[i] - i - 1) + 1
+            ans = max(ans, visible)
+
+        return ans
