@@ -1,0 +1,42 @@
+class Solution:
+    def countLessEqual(self, arr, x):
+        n = len(arr)
+
+        # -------- find pivot (smallest element index) --------
+        low, high = 0, n - 1
+        while low < high:
+            mid = (low + high) // 2
+            if arr[mid] > arr[high]:
+                low = mid + 1
+            else:
+                high = mid
+        pivot = low
+
+        cnt = 0
+
+        # -------- left part [0 ... pivot-1] --------
+        l, r = 0, pivot - 1
+        ans = -1
+        while l <= r:
+            m = (l + r) // 2
+            if arr[m] <= x:
+                ans = m
+                l = m + 1
+            else:
+                r = m - 1
+        cnt += ans + 1
+
+        # -------- right part [pivot ... n-1] --------
+        l, r = pivot, n - 1
+        ans = pivot - 1
+        while l <= r:
+            m = (l + r) // 2
+            if arr[m] <= x:
+                ans = m
+                l = m + 1
+            else:
+                r = m - 1
+        if ans >= pivot:
+            cnt += ans - pivot + 1
+
+        return cnt
