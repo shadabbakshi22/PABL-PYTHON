@@ -1,0 +1,37 @@
+class Solution:
+    def minMen(self, arr):
+        n = len(arr)
+
+        # maxRight[i] = farthest right end from start i
+        maxRight = [-1] * n
+
+        # Build intervals
+        for i in range(n):
+            if arr[i] != -1:
+                left = max(0, i - arr[i])
+                right = min(n - 1, i + arr[i])
+                maxRight[left] = max(maxRight[left], right)
+
+        people = 0
+        curr_end = -1     # current covered range
+        farthest = -1     # farthest we can extend
+
+        i = 0
+        while i < n:
+            # extend as far as possible within current coverage
+            while i < n and i <= curr_end + 1:
+                farthest = max(farthest, maxRight[i])
+                i += 1
+
+            # if we cannot extend → impossible
+            if farthest <= curr_end:
+                return -1
+
+            people += 1
+            curr_end = farthest
+
+            # fully covered
+            if curr_end >= n - 1:
+                return people
+
+        return -1
