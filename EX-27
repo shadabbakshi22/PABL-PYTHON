@@ -1,0 +1,19 @@
+class Solution:
+    def countPairs(self, arr):
+        from collections import defaultdict
+        
+        pattern_count = defaultdict(int)
+        ans = 0
+        
+        for word in arr:
+            # Generate patterns by replacing one position with '*'
+            for i in range(len(word)):
+                pattern = word[:i] + '*' + word[i+1:]
+                
+                # Add previously seen matches
+                ans += pattern_count[pattern]
+                
+                # Store this pattern
+                pattern_count[pattern] += 1
+        
+        return ans
