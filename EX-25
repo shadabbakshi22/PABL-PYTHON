@@ -1,0 +1,16 @@
+class Solution:
+    def frequencySort(self, s):
+        # Count frequency
+        freq = {}
+        for ch in s:
+            freq[ch] = freq.get(ch, 0) + 1
+        
+        # Sort by (frequency, lexicographical order)
+        arr = sorted(freq.items(), key=lambda x: (x[1], x[0]))
+        
+        # Build answer
+        result = []
+        for ch, count in arr:
+            result.append(ch * count)
+        
+        return "".join(result)
