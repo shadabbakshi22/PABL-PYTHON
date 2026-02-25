@@ -1,0 +1,22 @@
+class Solution:
+    def winner(self, arr):
+        # Step 1: Count frequency
+        votes = {}
+        for name in arr:
+            votes[name] = votes.get(name, 0) + 1
+        
+        # Step 2: Find winner
+        max_votes = -1
+        winner_name = ""
+        
+        for name in votes:
+            if votes[name] > max_votes:
+                max_votes = votes[name]
+                winner_name = name
+            elif votes[name] == max_votes:
+                # lexicographically smaller
+                if name < winner_name:
+                    winner_name = name
+        
+        # Step 3: return as list of strings
+        return [winner_name, str(max_votes)]
